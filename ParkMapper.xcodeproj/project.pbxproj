@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1626F25F2C73D33300A48E94 /* ParkMapperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */; };
-		1626F2612C73D33300A48E94 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F2602C73D33300A48E94 /* ContentView.swift */; };
+		1626F2612C73D33300A48E94 /* HomeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F2602C73D33300A48E94 /* HomeMapView.swift */; };
 		1626F2632C73D33500A48E94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1626F2622C73D33500A48E94 /* Assets.xcassets */; };
 		1626F2662C73D33500A48E94 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1626F2652C73D33500A48E94 /* Preview Assets.xcassets */; };
 		1626F2702C73D33500A48E94 /* ParkMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F26F2C73D33500A48E94 /* ParkMapperTests.swift */; };
 		1626F27A2C73D33500A48E94 /* ParkMapperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F2792C73D33500A48E94 /* ParkMapperUITests.swift */; };
 		1626F27C2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F27B2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift */; };
+		1626F28A2C73E39600A48E94 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1626F2892C73E39600A48E94 /* ChatGPTSwift */; };
+		1626F28C2C73E3B500A48E94 /* AISourcedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */; };
+		16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 16D6D6FE2C74A98D0040C2AE /* Aptabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +39,7 @@
 /* Begin PBXFileReference section */
 		1626F25B2C73D33300A48E94 /* ParkMapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkMapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperApp.swift; sourceTree = "<group>"; };
-		1626F2602C73D33300A48E94 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1626F2602C73D33300A48E94 /* HomeMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMapView.swift; sourceTree = "<group>"; };
 		1626F2622C73D33500A48E94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1626F2652C73D33500A48E94 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1626F26B2C73D33500A48E94 /* ParkMapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkMapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +47,8 @@
 		1626F2752C73D33500A48E94 /* ParkMapperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkMapperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1626F2792C73D33500A48E94 /* ParkMapperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITests.swift; sourceTree = "<group>"; };
 		1626F27B2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISourcedInfoViewModel.swift; sourceTree = "<group>"; };
+		1626F28D2C73FAB000A48E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1626F28A2C73E39600A48E94 /* ChatGPTSwift in Frameworks */,
+				16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,8 +101,10 @@
 		1626F25D2C73D33300A48E94 /* ParkMapper */ = {
 			isa = PBXGroup;
 			children = (
+				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
-				1626F2602C73D33300A48E94 /* ContentView.swift */,
+				1626F2602C73D33300A48E94 /* HomeMapView.swift */,
+				1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */,
 				1626F2622C73D33500A48E94 /* Assets.xcassets */,
 				1626F2642C73D33500A48E94 /* Preview Content */,
 			);
@@ -143,6 +152,10 @@
 			dependencies = (
 			);
 			name = ParkMapper;
+			packageProductDependencies = (
+				1626F2892C73E39600A48E94 /* ChatGPTSwift */,
+				16D6D6FE2C74A98D0040C2AE /* Aptabase */,
+			);
 			productName = ParkMapper;
 			productReference = 1626F25B2C73D33300A48E94 /* ParkMapper.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +228,10 @@
 				Base,
 			);
 			mainGroup = 1626F2522C73D33300A48E94;
+			packageReferences = (
+				1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */,
+			);
 			productRefGroup = 1626F25C2C73D33300A48E94 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,7 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1626F2612C73D33300A48E94 /* ContentView.swift in Sources */,
+				1626F2612C73D33300A48E94 /* HomeMapView.swift in Sources */,
+				1626F28C2C73E3B500A48E94 /* AISourcedInfoViewModel.swift in Sources */,
 				1626F25F2C73D33300A48E94 /* ParkMapperApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,27 +437,36 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ParkMapper/Preview Content\"";
 				DEVELOPMENT_TEAM = U967VKFQJ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ParkMapper/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Why?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.synced.ParkMapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -448,27 +475,36 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ParkMapper/Preview Content\"";
 				DEVELOPMENT_TEAM = U967VKFQJ8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ParkMapper/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Why?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.synced.ParkMapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -588,6 +624,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
+		16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aptabase/aptabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.10;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1626F2892C73E39600A48E94 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
+		16D6D6FE2C74A98D0040C2AE /* Aptabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */;
+			productName = Aptabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1626F2532C73D33300A48E94 /* Project object */;
 }
