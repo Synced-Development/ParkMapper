@@ -15,7 +15,10 @@
 		1626F27A2C73D33500A48E94 /* ParkMapperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F2792C73D33500A48E94 /* ParkMapperUITests.swift */; };
 		1626F27C2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F27B2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift */; };
 		1626F28A2C73E39600A48E94 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1626F2892C73E39600A48E94 /* ChatGPTSwift */; };
-		1626F28C2C73E3B500A48E94 /* AISourcedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */; };
+		1635B1AD2C74CA0100877F63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */; };
+		1635B1B22C74CA4900877F63 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1635B1B12C74CA4900877F63 /* FirebaseFirestore */; };
+		1698D4AE2C7798A6007455FD /* MapAnnotationViewMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */; };
+		1698D4B02C7D10DD007455FD /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AF2C7D10DD007455FD /* AppSettings.swift */; };
 		16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 16D6D6FE2C74A98D0040C2AE /* Aptabase */; };
 /* End PBXBuildFile section */
 
@@ -47,8 +50,10 @@
 		1626F2752C73D33500A48E94 /* ParkMapperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkMapperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1626F2792C73D33500A48E94 /* ParkMapperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITests.swift; sourceTree = "<group>"; };
 		1626F27B2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISourcedInfoViewModel.swift; sourceTree = "<group>"; };
 		1626F28D2C73FAB000A48E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationViewMarker.swift; sourceTree = "<group>"; };
+		1698D4AF2C7D10DD007455FD /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1626F28A2C73E39600A48E94 /* ChatGPTSwift in Frameworks */,
+				1635B1B22C74CA4900877F63 /* FirebaseFirestore in Frameworks */,
 				16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +91,7 @@
 				1626F26E2C73D33500A48E94 /* ParkMapperTests */,
 				1626F2782C73D33500A48E94 /* ParkMapperUITests */,
 				1626F25C2C73D33300A48E94 /* Products */,
+				1684654B2C7626760010D222 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,7 +111,9 @@
 				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
 				1626F2602C73D33300A48E94 /* HomeMapView.swift */,
-				1626F28B2C73E3B500A48E94 /* AISourcedInfoViewModel.swift */,
+				1698D4AF2C7D10DD007455FD /* AppSettings.swift */,
+				1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */,
+				1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */,
 				1626F2622C73D33500A48E94 /* Assets.xcassets */,
 				1626F2642C73D33500A48E94 /* Preview Content */,
 			);
@@ -136,6 +145,13 @@
 			path = ParkMapperUITests;
 			sourceTree = "<group>";
 		};
+		1684654B2C7626760010D222 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -155,6 +171,7 @@
 			packageProductDependencies = (
 				1626F2892C73E39600A48E94 /* ChatGPTSwift */,
 				16D6D6FE2C74A98D0040C2AE /* Aptabase */,
+				1635B1B12C74CA4900877F63 /* FirebaseFirestore */,
 			);
 			productName = ParkMapper;
 			productReference = 1626F25B2C73D33300A48E94 /* ParkMapper.app */;
@@ -231,6 +248,7 @@
 			packageReferences = (
 				1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 				16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */,
+				1635B1AE2C74CA4900877F63 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 1626F25C2C73D33300A48E94 /* Products */;
 			projectDirPath = "";
@@ -250,6 +268,7 @@
 			files = (
 				1626F2662C73D33500A48E94 /* Preview Assets.xcassets in Resources */,
 				1626F2632C73D33500A48E94 /* Assets.xcassets in Resources */,
+				1635B1AD2C74CA0100877F63 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +294,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1626F2612C73D33300A48E94 /* HomeMapView.swift in Sources */,
-				1626F28C2C73E3B500A48E94 /* AISourcedInfoViewModel.swift in Sources */,
+				1698D4AE2C7798A6007455FD /* MapAnnotationViewMarker.swift in Sources */,
+				1698D4B02C7D10DD007455FD /* AppSettings.swift in Sources */,
 				1626F25F2C73D33300A48E94 /* ParkMapperApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -439,12 +459,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ParkMapper/Preview Content\"";
 				DEVELOPMENT_TEAM = U967VKFQJ8;
-				ENABLE_PREVIEWS = YES;
+				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ParkMapper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ParkMapper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -452,12 +473,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.synced.ParkMapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -466,7 +487,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -477,12 +498,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"ParkMapper/Preview Content\"";
 				DEVELOPMENT_TEAM = U967VKFQJ8;
-				ENABLE_PREVIEWS = YES;
+				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ParkMapper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ParkMapper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Why?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -490,12 +512,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.synced.ParkMapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -504,7 +526,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -634,6 +656,14 @@
 				minimumVersion = 2.3.2;
 			};
 		};
+		1635B1AE2C74CA4900877F63 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.1.0;
+			};
+		};
 		16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aptabase/aptabase-swift";
@@ -649,6 +679,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
 			productName = ChatGPTSwift;
+		};
+		1635B1B12C74CA4900877F63 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1635B1AE2C74CA4900877F63 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		16D6D6FE2C74A98D0040C2AE /* Aptabase */ = {
 			isa = XCSwiftPackageProductDependency;

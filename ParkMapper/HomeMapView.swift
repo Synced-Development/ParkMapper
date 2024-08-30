@@ -1,109 +1,103 @@
 import SwiftUI
 import MapKit
 import ChatGPTSwift
+import ChatGPTSwift
 import CoreLocation
 import Aptabase
-
+import Firebase
 
 struct HomeMapView: View {
     @StateObject private var viewModel = HomeMapViewModel()
     @State private var searchQuery = ""
+    @State private var images: [String] = []
     @State private var selectedPark: Park?
     @State private var selectedRecreationalGround: RecreationGround?
     @State private var selectedChildrensPlayArea: ChildrensPlayAreas?
-    @State private var showClosestParksInfoSheet = false
-    @State private var showClosestChildrensPlayAreasInfoSheet = false
-    @State private var showClosestRecreationalGroundInfoSheet = false
+    @Binding  var showClosestParksInfoSheet: Bool
+    @Binding var reviewContent: String
+    @Binding  var showClosestChildrensPlayAreasInfoSheet: Bool
+    @Binding  var showClosestRecreationalGroundInfoSheet: Bool
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: viewModel.parks) { park in
-                MapAnnotation(coordinate: park.coordinate) {
-                    Button(action: {
-                        selectedPark = park
-                    }) {
-                        Image(systemName: "park")
-                            .foregroundColor(.green)
-                            .font(.title)
+            if showClosestParksInfoSheet {
+                Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: viewModel.parks) { park in
+                    MapAnnotation(coordinate: park.coordinate) {
+                        Button(action: {
+                            selectedPark = park
+                        }) {
+                            MapAnnotationViewMarker(showClosestParksInfoSheet: $showClosestParksInfoSheet, showClosestChildrensPlayAreasInfoSheet: $showClosestChildrensPlayAreasInfoSheet, showClosestRecreationalGroundInfoSheet: $showClosestRecreationalGroundInfoSheet)
+                        }
                     }
                 }
             }
-            .overlay(
+            if showClosestRecreationalGroundInfoSheet {
                 Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: viewModel.recreationalGrounds) { ground in
                     MapAnnotation(coordinate: ground.coordinate) {
                         Button(action: {
                             selectedRecreationalGround = ground
                         }) {
-                            Image(systemName: "building.2.fill")
-                                .foregroundColor(.blue)
-                                .font(.title)
+                            MapAnnotationViewMarker(showClosestParksInfoSheet: $showClosestParksInfoSheet, showClosestChildrensPlayAreasInfoSheet: $showClosestChildrensPlayAreasInfoSheet, showClosestRecreationalGroundInfoSheet: $showClosestRecreationalGroundInfoSheet)
                         }
                     }
                 }
-            )
-            .overlay(
+            }
+            if showClosestChildrensPlayAreasInfoSheet {
                 Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: viewModel.childrensPlayAreas) { area in
                     MapAnnotation(coordinate: area.coordinate) {
                         Button(action: {
                             selectedChildrensPlayArea = area
                         }) {
-                            Image(systemName: "playground")
-                                .foregroundColor(.purple)
-                                .font(.title)
+                            MapAnnotationViewMarker(showClosestParksInfoSheet: $showClosestParksInfoSheet, showClosestChildrensPlayAreasInfoSheet: $showClosestChildrensPlayAreasInfoSheet, showClosestRecreationalGroundInfoSheet: $showClosestRecreationalGroundInfoSheet)
                         }
                     }
                 }
-            )
-            .ignoresSafeArea()
-            
+            }
             VStack {
-                HStack {
-                    TextField("Search for an address", text: $searchQuery, onCommit: {
-                        viewModel.searchLocation(searchQuery: searchQuery)
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    
-                    Button(action: {
-                        viewModel.centerOnUserLocation()
-                    }) {
-                        Image(systemName: "location.fill")
-                            .padding()
-                            .background(Color.white)
-                            .clipShape(Circle())
-                    }
-                    Menu ("", systemImage: "line.3.horizontal.decrease.circle", content: {
-                        Button(action: {
-                            showClosestParksInfoSheet = true
-                            showClosestRecreationalGroundInfoSheet = false
-                            showClosestChildrensPlayAreasInfoSheet = false
-                        }, label: {
-                            Text("Parks")
-                        })
-                        
-                        Button(action: {
-                            showClosestRecreationalGroundInfoSheet = true
-                            showClosestParksInfoSheet = false
-                            showClosestChildrensPlayAreasInfoSheet = false
-                        }, label: {
-                            Text("Recreational Grounds")
-                        })
-                        
-                        Button(action: {
-                            showClosestChildrensPlayAreasInfoSheet = true
-                            showClosestParksInfoSheet = false
-                            showClosestRecreationalGroundInfoSheet = false
-                        }, label: {
-                            Text("Childrens Play areas")
-                        })
-                    })
-                }
-                
-                Spacer()
-                
                 if showClosestParksInfoSheet {
+                    HStack {
+                        TextField("Search for an address", text: $searchQuery, onCommit: {
+                            viewModel.searchLocation(searchQuery: searchQuery)
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        
+                        Button(action: {
+                            viewModel.centerOnUserLocation()
+                        }) {
+                            Image(systemName: "location.fill")
+                                .padding()
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        }
+                        Menu ("", systemImage: "line.3.horizontal.decrease.circle", content: {
+                            Button(action: {
+                                showClosestParksInfoSheet = true
+                                showClosestRecreationalGroundInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Parks")
+                            })
+                            
+                            Button(action: {
+                                showClosestRecreationalGroundInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Recreational Grounds")
+                            })
+                            
+                            Button(action: {
+                                showClosestChildrensPlayAreasInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestRecreationalGroundInfoSheet = false
+                            }, label: {
+                                Text("Childrens Play areas")
+                            })
+                        })
+                    }
                     if !viewModel.closestParks.isEmpty {
                         VStack(alignment: .leading) {
-                            Text("Nearest Parks")
+                            Text("Nearby Parks")
                                 .font(.headline)
                                 .padding(.leading)
                             
@@ -113,6 +107,8 @@ struct HomeMapView: View {
                                 }) {
                                     HStack {
                                         Text(park.name)
+                                            .bold()
+                                            .foregroundStyle(Color.primary)
                                         Spacer()
                                         Text("\(park.distance, specifier: "%.2f") miles")
                                     }
@@ -123,9 +119,50 @@ struct HomeMapView: View {
                         .background(Color.white)
                     }
                 } else if showClosestChildrensPlayAreasInfoSheet {
+                    HStack {
+                        TextField("Search for an address", text: $searchQuery, onCommit: {
+                            viewModel.searchLocation(searchQuery: searchQuery)
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        
+                        Button(action: {
+                            viewModel.centerOnUserLocation()
+                        }) {
+                            Image(systemName: "location.fill")
+                                .padding()
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        }
+                        Menu ("", systemImage: "line.3.horizontal.decrease.circle", content: {
+                            Button(action: {
+                                showClosestParksInfoSheet = true
+                                showClosestRecreationalGroundInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Parks")
+                            })
+                            
+                            Button(action: {
+                                showClosestRecreationalGroundInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Recreational Grounds")
+                            })
+                            
+                            Button(action: {
+                                showClosestChildrensPlayAreasInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestRecreationalGroundInfoSheet = false
+                            }, label: {
+                                Text("Childrens Play areas")
+                            })
+                        })
+                    }
                     if !viewModel.closestCPAs.isEmpty {
                         VStack(alignment: .leading) {
-                            Text("Nearest Children's Play Areas")
+                            Text("Nearby Children's Play Areas")
                                 .font(.headline)
                                 .padding(.leading)
                             
@@ -135,6 +172,8 @@ struct HomeMapView: View {
                                 }) {
                                     HStack {
                                         Text(area.name)
+                                            .bold()
+                                            .foregroundStyle(Color.primary)
                                         Spacer()
                                         Text("\(area.distance, specifier: "%.2f") miles")
                                     }
@@ -145,9 +184,50 @@ struct HomeMapView: View {
                         .background(Color.white)
                     }
                 } else if showClosestRecreationalGroundInfoSheet {
+                    HStack {
+                        TextField("Search for an address", text: $searchQuery, onCommit: {
+                            viewModel.searchLocation(searchQuery: searchQuery)
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        
+                        Button(action: {
+                            viewModel.centerOnUserLocation()
+                        }) {
+                            Image(systemName: "location.fill")
+                                .padding()
+                                .background(Color.white)
+                                .clipShape(Circle())
+                        }
+                        Menu ("", systemImage: "line.3.horizontal.decrease.circle", content: {
+                            Button(action: {
+                                showClosestParksInfoSheet = true
+                                showClosestRecreationalGroundInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Parks")
+                            })
+                            
+                            Button(action: {
+                                showClosestRecreationalGroundInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestChildrensPlayAreasInfoSheet = false
+                            }, label: {
+                                Text("Recreational Grounds")
+                            })
+                            
+                            Button(action: {
+                                showClosestChildrensPlayAreasInfoSheet = true
+                                showClosestParksInfoSheet = false
+                                showClosestRecreationalGroundInfoSheet = false
+                            }, label: {
+                                Text("Childrens Play areas")
+                            })
+                        })
+                    }
                     if !viewModel.closestRGs.isEmpty {
                         VStack(alignment: .leading) {
-                            Text("Nearest Recreational Grounds")
+                            Text("nearby Recreational Grounds")
                                 .font(.headline)
                                 .padding(.leading)
                             List(viewModel.closestRGs.prefix(5), id: \.id) { ground in
@@ -156,6 +236,8 @@ struct HomeMapView: View {
                                 }) {
                                     HStack {
                                         Text(ground.name)
+                                            .bold()
+                                            .foregroundStyle(Color.primary)
                                         Spacer()
                                         Text("\(ground.distance, specifier: "%.2f") miles")
                                     }
@@ -174,9 +256,12 @@ struct HomeMapView: View {
                         .background(Color.white)
                     }
                 }
+                
             }
         }
+        .ignoresSafeArea()
         .onAppear {
+            
             viewModel.requestLocationPermission()
             showClosestParksInfoSheet = true
             showClosestRecreationalGroundInfoSheet = false
@@ -188,144 +273,1143 @@ struct HomeMapView: View {
             ParkDetailView(park: park)
         }
         .sheet(item: $selectedRecreationalGround) { ground in
-            RecreationGroundDetailView(recreationalGround: ground)
+            RecreationGroundDetailView(recreationGround: ground)
         }
         .sheet(item: $selectedChildrensPlayArea) { area in
-            ChildrensPlayAreasDetailView(childrensPlayAreas: area)
+            ChildrensPlayAreasDetailView(CPA: area, reviewContent: $reviewContent)
         }
+
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-struct ParkDetailView: View {
-    let park: Park
-    @State private var parkapiresponse = ""
-    let api = ChatGPTAPI(apiKey: "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")
-    var body: some View {
-        VStack {
-            Text("Park Details")
-                .font(.largeTitle)
-            Text("Name: \(park.name)")
-            Text("Distance: \(park.distance, specifier: "%.2f") miles")
-            
-            Spacer()
-        }
-        .padding()
-        .onAppear() {
-            makeapiCallWithParkData()
-        }
-        
-    }
-    private func makeapiCallWithParkData() {
-        Task {
-            Aptabase.shared.trackEvent("Api Calls Made")
+    private func createUserID() async {
+        let userID: String
+        let api = ChatGPTAPI(apiKey: "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")
+            Aptabase.shared.trackEvent("API Calls Made")
             do {
-                var stream = try await api.sendMessageStream(text: "tell me about \(park.name) at \(park.coordinate). Limit your response to 100 characters, including only the most crucial information, such as what amenities the park has to offer. Ensure you include a list of the play equipment.")
-                
+                let stream = try await api.sendMessageStream(text: "Create a random user ID")
+                var response = ""
                 for try await line in stream {
-                    parkapiresponse += line
+                    response += line
                 }
+                userID = response
+                print(userID)
             } catch {
-                print("Error: \(error.localizedDescription)")
-                parkapiresponse = "Failed to retrieve information."
+                print("Error making API call: \(error.localizedDescription)")
             }
         }
-    }
-    
 }
 struct RecreationGroundDetailView: View {
-    let recreationalGround: RecreationGround
-    @State private var recreationalgroundapiresponse = ""
-    let api = ChatGPTAPI(apiKey: "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")
-    var body: some View {
-        VStack {
-            Text("Recreational Ground Details")
-                .font(.largeTitle)
-            Text("Name: \(recreationalGround.name)")
-            Text("Distance: \(recreationalGround.distance, specifier: "%.2f") miles")
-            
-            Spacer()
-        }
-        .padding()
-        .onAppear() {
-            makeapiCallWithRecrerationalGroundData()
-        }
-    }
-    private func makeapiCallWithRecrerationalGroundData() {
-        Task {
-            Aptabase.shared.trackEvent("Api Calls Made")
-            do {
-                var stream = try await api.sendMessageStream(text: "tell me about \(recreationalGround.name) at \(recreationalGround.coordinate). Limit your response to 100 characters, including only the most crucial information, such as what amenities the park has to offer. Ensure you include a list of the play equipment.")
-                
-                for try await line in stream {
-                    recreationalgroundapiresponse += line
-                }
-            } catch {
-                print("Error: \(error.localizedDescription)")
-                recreationalgroundapiresponse = "Failed to retrieve information."
+    let recreationGround: RecreationGround
+    
+    @State private var averageReviewScore: Double = 0.0
+    @State private var reviews: [String] = [] // Array to store reviews
+    @State private var parkApiResponse = ""
+    @State private var writeAReviewForRecG = false
+    @State private var images: [String] = []
+    
+    // Function to load recent reviews
+    private func loadRecentReviews() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("RecG-Reviews").document(recreationGround.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let reviewContents = data["reviewcontent"] as? [String: String] else {
+                print("No reviews found for \(recreationGround.name)")
+                return
             }
+            
+            // Sort and limit reviews to the 3 most recent
+            let sortedReviews = reviewContents.values.sorted { $0 < $1 }
+            let recentReviews = sortedReviews.prefix(3)
+            
+            DispatchQueue.main.async {
+                self.reviews = Array(recentReviews)
+            }
+            
+        } catch {
+            print("Error fetching recent reviews: \(error.localizedDescription)")
         }
     }
-}
-struct ChildrensPlayAreasDetailView: View {
-    @State private var childrensplayareaapiresponse = ""
-    let childrensPlayAreas: ChildrensPlayAreas
-    let api = ChatGPTAPI(apiKey: "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")
     
     var body: some View {
         VStack {
-            Text("Children's Play Area Details")
-                .font(.largeTitle)
-            Text("Name: \(childrensPlayAreas.name)")
-            Text("Distance: \(childrensPlayAreas.distance, specifier: "%.2f") miles")
-            Text("About this play area: \(childrensplayareaapiresponse)")
-            Spacer()
+            Text(recreationGround.name)
+                .font(.title)
+                .foregroundColor(.primary)
+            Text("Distance: \(recreationGround.distance, specifier: "%.2f") miles")
+                .font(.subheadline)
+            
+            HStack {
+                Button(action: {
+                    writeAReviewForRecG.toggle()
+                }) {
+                    Text("Write a Rec Ground review")
+                }
+                .sheet(isPresented: $writeAReviewForRecG) {
+                    WriteaReviewforRecG(RecreationalGround: recreationGround)
+                }
+            } // Button to review the specific Park
+            
+            VStack {
+                Text("Average user rating")
+                VStack {
+                    HStack {
+                        Text("\(averageReviewScore, specifier: "%.1f")")
+                        ForEach(1..<6) { star in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(star <= Int(averageReviewScore) ? .yellow : .gray)
+                        }
+                    }
+                } // Manages displaying the star graphic
+            } // Average user rating numerical & Graphic
+            
+            ScrollView {
+                ForEach(images.prefix(3), id: \.self) { imageUrl in
+                    AsyncImage(url: URL(string: imageUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
+            } // Shows images sourced from Google Custom Search
+            
+            VStack {
+                if parkApiResponse.contains("\(recreationGround.name) has been called for") {
+                    Text("A valid resource call has been made for \(recreationGround.name)")
+                }
+                if parkApiResponse.contains("Swings") {
+                    RoundedRectangle(cornerRadius: 25)
+                        .overlay {
+                            VStack {
+                                Text("Swings - YES")
+                                if parkApiResponse.contains("Toilets") { Text("Toilets - YES") }
+                                if parkApiResponse.contains("Picnic tables") { Text("Picnic tables - YES") }
+                                if parkApiResponse.contains("Water fountains") { Text("Water Fountains - YES") }
+                                if parkApiResponse.contains("Parking") {
+                                    HStack {
+                                        Text("Vehicle Parking")
+                                        Image(systemName: "parkingsign.square.fill")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                            }
+                        }
+                        .opacity(0.2)
+                }
+            } // Displays park amenities from the API
+            
+            VStack {
+                Text("User Reviews")
+                    .bold()
+                
+                if reviews.isEmpty {
+                    Text("Loading reviews...")
+                        .padding()
+                } else {
+                    ForEach(reviews, id: \.self) { review in
+                        Text(review)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).stroke())
+                            .padding(.bottom, 4)
+                    }
+                }
+            } // Shows the 3 most recent user reviews
         }
         .padding()
         .onAppear {
-            makeApiCallWithChildrensPlayAreaData()
+            Task {
+                await getAverageReviewScore() // Obtain the average rating
+                await loadRecentReviews() // Fetch and display recent reviews
+                fetchImages(for: recreationGround.name) // Fetches images from Google Custom Search
+            }
+        } // Important functions that run when the ParkDetailView is shown
+    }
+
+    @MainActor
+    private func getAverageReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("RecG-Reviews").document(recreationGround.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(recreationGround.name)")
+                return
+            }
+            
+            self.averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            
+            print("Average review score for \(recreationGround.name) is \(averageReviewScore)")
+            
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+            
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
         }
     }
-    private func makeApiCallWithChildrensPlayAreaData() {
-        Task {
-            Aptabase.shared.trackEvent("Api Calls Made")
+
+    func fetchImages(for query: String) {
+        let apiKey = "AIzaSyCI4SnMVmTLu5AnP4OAc7hL2q0wZzLGVdU"
+        let searchEngineId = "11a7a6286e5584772"
+        let urlString = "https://www.googleapis.com/customsearch/v1?q=\(query)&cx=\(searchEngineId)&searchType=image&key=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch data: \(error?.localizedDescription ?? "No error description")")
+                return
+            }
+
             do {
-                var stream = try await api.sendMessageStream(text: "tell me about \(childrensPlayAreas.name) at \(childrensPlayAreas.coordinate). Limit your response to 100 characters, including only the most crucial information, such as what amenities the park has to offer. Ensure you include a list of the play equipment.")
-                
-                for try await line in stream {
-                    childrensplayareaapiresponse += line
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let items = json["items"] as? [[String: Any]] {
+                    let imageUrls = items.compactMap { $0["link"] as? String }
+                    DispatchQueue.main.async {
+                        self.images = imageUrls
+                    }
                 }
             } catch {
-                print("Error: \(error.localizedDescription)")
-                childrensplayareaapiresponse = "Failed to retrieve information."
+                print("Failed to decode JSON: \(error.localizedDescription)")
+            }
+        }
+
+        task.resume()
+    }
+} // View that shows the Individual Recreational Grounds data (name, distance, user-contributed rating, Photos, Amenities, The ability to leave a review)
+struct ChildrensPlayAreasDetailView: View {
+    let CPA: ChildrensPlayAreas
+    @Binding var reviewContent: String
+    @State private var averageReviewScore: Double = 0.0
+    @State private var reviews: [String] = []
+    @State private var parkApiResponse = ""
+    @State private var WriteaReviewforRecG = false
+    @State private var images: [String] = []
+    @State private var WriteaReviewforCPA = false
+    // Ensure to store API keys securely and not in the code directly
+    let api = ChatGPTAPI(apiKey: "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")
+    
+    private func loadRecentCPAReviews() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("CPA-Reviews").document(CPA.name)
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let reviewContents = data["reviewcontent"] as? [String: String] else {
+                print("No reviews found for \(CPA.name)")
+                return
+            }
+            
+            let sortedReviews = reviewContents.values.sorted { $0 < $1 }
+            let recentReviews = sortedReviews.prefix(3)
+            
+            DispatchQueue.main.async {
+                self.reviews = Array(recentReviews)
+            }
+            
+        } catch {
+            print("Error fetching recent reviews: \(error.localizedDescription)")
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            Text(CPA.name)
+                .font(.title)
+                .foregroundColor(.primary)
+            Text("Distance: \(CPA.distance, specifier: "%.2f") miles")
+                .font(.subheadline)
+            
+            HStack {
+                Button(action: {
+                    WriteaReviewforCPA.toggle()
+                }) {
+                    Text("Write a Playground review")
+                }
+                .sheet(isPresented: $WriteaReviewforCPA) {
+                    ParkMapper.WriteaReviewforCPA(Childrensplayareas: CPA, reviewContent: $reviewContent)
+                }
+            }
+            
+            VStack {
+                Text("Average user rating")
+                VStack {
+                    HStack {
+                        Text("\(averageReviewScore, specifier: "%.1f")")
+                        ForEach(1..<6) { star in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(star <= Int(averageReviewScore) ? .yellow : .gray)
+                        }
+                    }
+                }
+            }
+            
+            ScrollView {
+                ForEach(images.prefix(3), id: \.self) { imageUrl in
+                    AsyncImage(url: URL(string: imageUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
+            }
+            
+            VStack {
+                if parkApiResponse.contains("\(CPA.name) has been called for") {
+                    Text("A valid resource call has been made for \(CPA.name)")
+                }
+                if parkApiResponse.contains("Swings") {
+                    RoundedRectangle(cornerRadius: 25)
+                        .overlay {
+                            VStack {
+                                Text("Swings - YES")
+                                if parkApiResponse.contains("Toilets") { Text("Toilets - YES") }
+                                if parkApiResponse.contains("Picnic tables") { Text("Picnic tables - YES") }
+                                if parkApiResponse.contains("Water fountains") { Text("Water Fountains - YES") }
+                                if parkApiResponse.contains("Parking") {
+                                    HStack {
+                                        Text("Vehicle Parking")
+                                        Image(systemName: "parkingsign.square.fill")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                            }
+                        }
+                        .opacity(0.2)
+                }
+            }
+            
+            VStack {
+                Text("User Reviews")
+                    .bold()
+                
+                if reviews.isEmpty {
+                    Text("Loading reviews...")
+                        .padding()
+                } else {
+                    ForEach(reviews, id: \.self) { review in
+                        Text(review)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).stroke())
+                            .padding(.bottom, 4)
+                    }
+                }
+            }
+        }
+        .padding()
+        .onAppear {
+            Task {
+                await getAverageReviewScore(for: CPA)
+                await loadRecentCPAReviews()
+                fetchImages(for: CPA.name)
             }
         }
     }
+
+    @MainActor
+    private func getAverageReviewScore(for CPA: ChildrensPlayAreas) async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("CPA-Reviews").document(CPA.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(CPA.name)")
+                return
+            }
+            
+            self.averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            
+            print("Average review score for \(CPA.name) is \(averageReviewScore)")
+            
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+            
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func loadRecentRecGReviews(for CPA: ChildrensPlayAreas) async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("CPA-Reviews").document(CPA.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let reviewContents = data["reviewcontent"] as? [String: String] else {
+                print("No reviews found for \(CPA.name)")
+                return
+            }
+            
+            let sortedReviews = reviewContents.sorted { $0.key < $1.key }
+            let recentReviews = sortedReviews.prefix(3).map { $0.value }
+            
+            DispatchQueue.main.async {
+                self.reviews = Array(recentReviews)
+            }
+            
+        } catch {
+            print("Error fetching recent reviews: \(error.localizedDescription)")
+        }
+    }
+
+    private func fetchImages(for query: String) {
+        let apiKey = "AIzaSyCI4SnMVmTLu5AnP4OAc7hL2q0wZzLGVdU"
+        let searchEngineId = "11a7a6286e5584772"
+        let urlString = "https://www.googleapis.com/customsearch/v1?q=\(query)&cx=\(searchEngineId)&searchType=image&key=\(apiKey)"
+        guard let url = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch data: \(error?.localizedDescription ?? "No error description")")
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let items = json["items"] as? [[String: Any]] {
+                    let imageUrls = items.compactMap { $0["link"] as? String }
+                    DispatchQueue.main.async {
+                        self.images = imageUrls
+                    }
+                }
+            } catch {
+                print("Failed to decode JSON: \(error.localizedDescription)")
+            }
+        }
+
+        task.resume()
+    }
 }
+struct ParkDetailView: View {
+    let park: Park
+    
+    @State private var averageReviewScore: Double = 0.0
+    @State private var reviews: [String] = [] // Array to store reviews
+    @State private var line = ""
+    @State private var writeaparkreview = false
+    @State private var images: [String] = []
+    
+    // Initialize the ChatGPT API (Remember to store API keys securely)
+    let api = ChatGPTAPI(apiKey: "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")
+    
+    var body: some View {
+        VStack {
+            Text(park.name)
+                .font(.title)
+                .foregroundColor(.primary)
+            Text("Distance: \(park.distance, specifier: "%.2f") miles")
+                .font(.subheadline)
+            
+            HStack {
+                Button(action: {
+                    writeaparkreview.toggle()
+                }) {
+                    Text("Write a park review")
+                }
+                .sheet(isPresented: $writeaparkreview) {
+                    WriteaReviewforPark(park: park)
+                }
+            } // Button to review the specific Park
+            
+            VStack {
+                Text("Average user rating")
+                VStack {
+                    HStack {
+                        Text("\(averageReviewScore, specifier: "%.1f")")
+                        ForEach(1..<6) { star in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(star <= Int(averageReviewScore) ? .yellow : .gray)
+                        }
+                    }
+                } // Manages displaying the star graphic
+            } // Average user rating numerical & Graphic
+            
+                ScrollView {
+                    HStack {
+                        ForEach(images.prefix(3), id: \.self) { imageUrl in
+                            AsyncImage(url: URL(string: imageUrl)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
+                    }
+                } // Shows images sourced from Google Custom Search
+             //GCSE Image Viewer
+            VStack {
+                if line.contains("\(park.name) has been called for") {
+                    Text("A valid resource call has been made for \(park.name)")
+                }
+                if line.contains("Swings") {
+                    RoundedRectangle(cornerRadius: 25)
+                        .overlay {
+                            VStack {
+                                Text("Swings - YES")
+                                if line.contains("Toilets") { Text("Toilets - YES") }
+                                if line.contains("Picnic tables") { Text("Picnic tables - YES") }
+                                if line.contains("Water fountains") { Text("Water Fountains - YES") }
+                                if line.contains("Parking") {
+                                    HStack {
+                                        Text("Vehicle Parking")
+                                        Image(systemName: "parkingsign.square.fill")
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                            }
+                        }
+                        .opacity(0.2)
+                }
+            } // Displays park amenities from the API
+            
+            VStack {
+                Text("User Reviews")
+                    .bold()
+                
+                if reviews.isEmpty {
+                    Text("Loading reviews...")
+                        .padding()
+                } else {
+                    ForEach(reviews, id: \.self) { review in
+                        Text(review)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).stroke())
+                            .padding(.bottom, 4)
+                    }
+                }
+            } // Shows the 3 most recent user reviews
+        }
+        .padding()
+        .onAppear {
+            Task {
+                await fetchChatGPTParkResponse()
+                await getAverageReviewScore() // Obtain the average rating
+                await loadRecentReviews() // Fetch and display recent reviews
+                fetchImages(for: park.name) // Fetches images from Google Custom Search
+            }
+        } // Important functions that run when the ParkDetailView is shown
+    }
+
+    @MainActor
+
+   
+    
+    private func fetchChatGPTParkResponse() async {
+        Task {
+            do {
+                let stream = try await api.sendMessageStream(text: "Give me a bullet point list of wwhat amenties are available at \(park.name), its coordinates are \(park.coordinate)")
+                for try await line in stream {
+                    print(line)
+                    
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        // Construct the prompt
+    }
+
+
+
+
+
+
+    private func getAverageReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Park-Reviews").document(park.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(park.name)")
+                return
+            }
+            
+            self.averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            
+            print("Average review score for \(park.name) is \(averageReviewScore)")
+            
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+            
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func loadRecentReviews() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Park-Reviews").document(park.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let reviewContents = data["reviewcontent"] as? [String: String] else {
+                print("No reviews found for \(park.name)")
+                return
+            }
+            
+            // Sort reviews by keys or timestamps if available
+            let sortedReviews = reviewContents.values.sorted { $0 < $1 } // Modify sorting if needed
+            let recentReviews = sortedReviews.prefix(3)
+            
+            DispatchQueue.main.async {
+                self.reviews = Array(recentReviews)
+            }
+            
+        } catch {
+            print("Error fetching recent reviews: \(error.localizedDescription)")
+        }
+    }
+
+    func fetchImages(for query: String) {
+        let apiKey = "AIzaSyCI4SnMVmTLu5AnP4OAc7hL2q0wZzLGVdU"
+        let searchEngineId = "11a7a6286e5584772"
+        let urlString = "https://www.googleapis.com/customsearch/v1?q=\(query)&cx=\(searchEngineId)&searchType=image&key=\(apiKey)"
+        
+        guard let url = URL(string: urlString) else { return }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch data: \(error?.localizedDescription ?? "No error description")")
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let items = json["items"] as? [[String: Any]] {
+                    let imageUrls = items.compactMap { $0["link"] as? String }
+                    DispatchQueue.main.async {
+                        self.images = imageUrls
+                    }
+                }
+            } catch {
+                print("Failed to decode JSON: \(error.localizedDescription)")
+            }
+        }
+
+        task.resume()
+    }
+}
+struct WriteaReviewforPark: View {
+    @MainActor
+    let park: Park
+
+    @State private var starReview = 0
+    @State private var reviewContent = ""
+    @State private var reviewStarGrades = [false, false, false, false, false]
+    @State private var averageReviewScore: Double?
+
+    var body: some View {
+        VStack {
+            Text("Review \(park.name)")
+                .font(.headline)
+                .padding()
+
+            RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(.gray)
+                .opacity(0.8)
+                .overlay {
+                    TextField("What's your thoughts on \(park.name)?", text: $reviewContent)
+                        .frame(height: 100)
+                        .padding()
+                }
+                .padding()
+
+            HStack {
+                ForEach(1...5, id: \.self) { grade in
+                    starButton(grade: grade, isSelected: $reviewStarGrades[grade-1])
+                }
+            }
+            .padding()
+
+            Button {
+                Task {
+                    await uploadParkReviewDataToFirebase()
+                }
+            } label: {
+                Text("Publish review")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .padding()
+
+            if let averageReviewScore = averageReviewScore {
+                Text("Average Score: \(String(format: "%.2f", averageReviewScore))")
+                    .padding()
+            } else {
+                Text("Calculating average score...")
+                    .padding()
+            }
+        }
+        .onAppear {
+            Task {
+                await getAverageParkReviewScore()
+            }
+        }
+    }
+
+    @ViewBuilder
+    func starButton(grade: Int, isSelected: Binding<Bool>) -> some View {
+        Button(action: {
+            withAnimation {
+                starReview = isSelected.wrappedValue ? grade - 1 : grade
+                updateStarGrades(for: grade)
+            }
+        }) {
+            Image(systemName: isSelected.wrappedValue ? "star.fill" : "star")
+                .foregroundColor(.yellow)
+        }
+    }
+
+    private func updateStarGrades(for grade: Int) {
+        for i in 0..<5 {
+            reviewStarGrades[i] = i < grade
+        }
+    }
+
+    @MainActor
+    func uploadParkReviewDataToFirebase() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Park-Reviews").document(park.name)
+
+        do {
+            let document = try await docRef.getDocument()
+            let reviewID = UUID().uuidString
+            
+            var reviewData: [String: Any] = [
+                "star-rating": FieldValue.increment(Int64(starReview)),
+                "review-number": FieldValue.increment(Int64(1)),
+                "reviewcontent.\(reviewID)": reviewContent
+            ]
+
+            if document.exists {
+                // Update existing document
+                try await docRef.updateData(reviewData)
+            } else {
+                // Create new document
+                reviewData["star-rating"] = starReview
+                reviewData["review-number"] = 1
+                reviewData["reviewcontent"] = [reviewID: reviewContent]
+                
+                try await docRef.setData(reviewData)
+            }
+
+            // Reload average review score after updating
+            await getAverageParkReviewScore()
+
+        } catch {
+            print("Error updating Firestore: \(error.localizedDescription)")
+        }
+    }
+    func uploadRecGReviewDatatoFirebase() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("RecG-Reviews").document(park.name)
+
+        do {
+            let document = try await docRef.getDocument()
+            let reviewID = UUID().uuidString
+            
+            var reviewData: [String: Any] = [
+                "star-rating": FieldValue.increment(Int64(starReview)),
+                "review-number": FieldValue.increment(Int64(1)),
+                "reviewcontent.\(reviewID)": reviewContent
+            ]
+
+            if document.exists {
+                // Update existing document
+                try await docRef.updateData(reviewData)
+            } else {
+                // Create new document
+                reviewData["star-rating"] = starReview
+                reviewData["review-number"] = 1
+                reviewData["reviewcontent"] = [reviewID: reviewContent]
+                
+                try await docRef.setData(reviewData)
+            }
+
+            // Reload average review score after updating
+            await getAverageParkReviewScore()
+
+        } catch {
+            print("Error updating Firestore: \(error.localizedDescription)")
+        }
+    }
+    @MainActor
+    func getAverageParkReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Park-Reviews").document(park.name)
+
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(park.name)")
+                return
+            }
+
+            let averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            self.averageReviewScore = averageReviewScore
+
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+
+    func getAverageRecGReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Park-Reviews").document(park.name)
+
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(park.name)")
+                return
+            }
+
+            let averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            self.averageReviewScore = averageReviewScore
+
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+}
+struct WriteaReviewforRecG: View {
+    @MainActor
+    func getAverageReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("ParkMapper-User-Reviews").document(RecreationalGround.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(RecreationalGround.name)")
+                await setInitialValues(for: docRef)
+                return
+            }
+            
+            let averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            print("Average review score for \(RecreationalGround.name) is \(averageReviewScore)")
+            
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+            
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func setInitialValues(for docRef: DocumentReference) async {
+        do {
+            try await docRef.setData([
+                "star-rating": 0,
+                "review-number": 1,
+                "reviewcontent": "",
+                "averagereviewscore": 0.0
+            ])
+        } catch {
+            print("Error setting initial values: \(error.localizedDescription)")
+        }
+    }
+
+    let RecreationalGround: RecreationGround
+
+    @State var starReview = 0
+    @State private var reviewContent = ""
+    @State private var reviewStarGrades = [false, false, false, false, false]
+    let numberOfReviews = 0
+    
+    var body: some View {
+        VStack {
+            Text("Review \(RecreationalGround.name)")
+            
+            RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(.gray)
+                .opacity(0.8)
+                .overlay {
+                    TextField("What's your thought's on \(RecreationalGround.name)", text: $reviewContent)
+                        .frame(width: 300, height: 300)
+                }
+
+            HStack {
+                ForEach(1...5, id: \.self) { grade in
+                    starButton(grade: grade, isSelected: $reviewStarGrades[grade-1])
+                }
+            }
+
+            Button {
+                Task {
+                    await uploadRecreationalGroundReviewDataToFirebase()
+                }
+            } label: {
+                Text("Publish review")
+            }
+        }
+        .onAppear {
+            Task {
+                await getAverageReviewScore()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func starButton(grade: Int, isSelected: Binding<Bool>) -> some View {
+        Button(action: {
+            withAnimation {
+                starReview = isSelected.wrappedValue ? grade - 1 : grade
+                updateStarGrades(for: grade)
+            }
+        }) {
+            Image(systemName: isSelected.wrappedValue ? "star.fill" : "star")
+                .foregroundColor(.yellow)
+        }
+    }
+
+    func updateStarGrades(for grade: Int) {
+        for i in 0..<5 {
+            reviewStarGrades[i] = i < grade
+        }
+    }
+
+    @MainActor
+    func uploadRecreationalGroundReviewDataToFirebase() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("RecG-Reviews").document(RecreationalGround.name)
+
+        do {
+            let document = try await docRef.getDocument()
+            let data: [String: Any] = [
+                "star-rating": FieldValue.increment(Int64(starReview)),
+                "review-number": FieldValue.increment(Int64(1)),
+                "reviewcontent": reviewContent
+            ]
+            
+            if document.exists {
+                try await docRef.updateData(data)
+            } else {
+                try await docRef.setData(data)
+            }
+            
+        } catch {
+            print("Error updating Firestore: \(error.localizedDescription)")
+        }
+    }
+} //View to compile a review for the specific Recreation Ground
+struct WriteaReviewforCPA: View {
+    @MainActor
+    func getAverageReviewScore() async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("CPA-Reviews").document(Childrensplayareas.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            guard let data = document.data(),
+                  let numberOfReviews = data["review-number"] as? Int,
+                  numberOfReviews > 0,
+                  let totalScore = data["star-rating"] as? Int else {
+                print("No valid reviews found for \(Childrensplayareas.name)")
+                await setInitialValues(for: docRef)
+                return
+            }
+            
+            let averageReviewScore = Double(totalScore) / Double(numberOfReviews)
+            print("Average review score for \(Childrensplayareas.name) is \(averageReviewScore)")
+            
+            try await docRef.updateData([
+                "averagereviewscore": averageReviewScore
+            ])
+            
+        } catch {
+            print("Error fetching or updating document: \(error.localizedDescription)")
+        }
+    }
+
+    @MainActor
+    private func setInitialValues(for docRef: DocumentReference) async {
+        do {
+            try await docRef.setData([
+                "star-rating": 0,
+                "review-number": 1,
+                "reviewcontent": reviewContent,
+                "averagereviewscore": 0.0
+            ])
+        } catch {
+            print("Error setting initial values: \(error.localizedDescription)")
+        }
+    }
+
+    let Childrensplayareas: ChildrensPlayAreas
+
+    @State var starReview = 0
+    @Binding var reviewContent: String
+    @State private var reviewStarGrades = [false, false, false, false, false]
+    let numberOfReviews = 0
+    
+    var body: some View {
+        VStack {
+            Text("Review \(Childrensplayareas.name)")
+            
+            RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(.gray)
+                .opacity(0.8)
+                .overlay {
+                    TextField("What's your thought's on \(Childrensplayareas.name)", text: $reviewContent)
+                        .frame(width: 300, height: 300)
+                }
+
+            HStack {
+                ForEach(1...5, id: \.self) { grade in
+                    starButton(grade: grade, isSelected: $reviewStarGrades[grade-1])
+                }
+            }
+
+            Button {
+                Task {
+                    do {
+                        await uploadCPAReviewDatatoFirebase(for: Childrensplayareas, starReview: 0, reviewContent: "")
+                    }
+                }
+            } label: {
+                Text("Publish review")
+            }
+        }
+        .onAppear {
+            Task {
+                await getAverageReviewScore()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func starButton(grade: Int, isSelected: Binding<Bool>) -> some View {
+        Button(action: {
+            withAnimation {
+                starReview = isSelected.wrappedValue ? grade - 1 : grade
+                updateStarGrades(for: grade)
+            }
+        }) {
+            Image(systemName: isSelected.wrappedValue ? "star.fill" : "star")
+                .foregroundColor(.yellow)
+        }
+    }
+
+    func updateStarGrades(for grade: Int) {
+        for i in 0..<5 {
+            reviewStarGrades[i] = i < grade
+        }
+    }
+    private func uploadCPAReviewDatatoFirebase(for CPA: ChildrensPlayAreas, starReview: Int, reviewContent: String) async {
+        let db = Firestore.firestore()
+        let docRef = db.collection("CPA-Reviews").document(CPA.name)
+        
+        do {
+            let document = try await docRef.getDocument()
+            let reviewID = UUID().uuidString
+
+            // The basic data to increment star rating and review count
+            var reviewData: [String: Any] = [
+                "star-rating": FieldValue.increment(Int64(starReview)),
+                "review-number": FieldValue.increment(Int64(1))
+            ]
+
+            if document.exists {
+                // Update existing document by adding the new review content under a unique ID
+                try await docRef.updateData([
+                    "reviewcontent.\(reviewID)": reviewContent
+                ])
+                
+                // Also update the star-rating and review-number
+                try await docRef.updateData(reviewData)
+            } else {
+                // Create a new document with the review content as a dictionary
+                reviewData["star-rating"] = starReview
+                reviewData["review-number"] = 1
+                reviewData["reviewcontent"] = [reviewID: reviewContent]
+                
+                try await docRef.setData(reviewData)
+            }
+
+            // Reload average review score after updating
+            await getAverageCPAReviewScore(for: CPA)
+
+        } catch {
+            print("Error updating Firestore: \(error.localizedDescription)")
+        }
+    }
+
+} //View to compile a review for the specific Playground
+func getAverageCPAReviewScore(for CPA: ChildrensPlayAreas) async {
+    let db = Firestore.firestore()
+    let docRef = db.collection("CPA-Reviews").document(CPA.name)
+
+    do {
+        let document = try await docRef.getDocument()
+        guard let data = document.data(),
+              let numberOfReviews = data["review-number"] as? Int,
+              numberOfReviews > 0,
+              let totalScore = data["star-rating"] as? Double else {
+            print("No valid reviews found for \(CPA.name)")
+            return
+        }
+
+        var averageReviewScore = totalScore / Double(numberOfReviews)
+        try await docRef.updateData([
+            "averagereviewscore": averageReviewScore
+        ])
+
+    } catch {
+        print("Error fetching or updating document: \(error.localizedDescription)")
+    }
+}
+//REVIEW CONTENT
+//Random review ID - 12 Character String
+//Star rating as determined by user.  {{Will need to be added in the back end and divide by total number of reviews to show an average}}
+//Free text opinion - pending moderation to comply with ARG
+
 final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 40, longitude: -120), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     @Published var parks: [Park] = []
@@ -344,17 +1428,27 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
     }
     
     func requestLocationPermission() {
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+        DispatchQueue.main.async {
+            self.locationManager.requestWhenInUseAuthorization()
+            self.locationManager.requestLocation()
+        }
     }
     
-    func centerOnUserLocation() {
-        guard let location = userLocation else { return }
+     func centerOnUserLocation() {
+        guard let location = userLocation else {
+            print("userLocation is nil")
+            return
+        }
         DispatchQueue.main.async {
-            self.region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-            self.fetchParks(near: location)
-            self.fetchRecreationalGrounds(near: location)
-            self.fetchChildrensPlayAreas(near: location)
+            do {
+                self.region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                try self.fetchParks(near: location)
+                try self.fetchRecreationalGrounds(near: location)
+                try self.fetchChildrensPlayAreas(near: location)
+            } catch {
+                print("Error: \(error.localizedDescription)")
+                // Handle error appropriately
+            }
         }
     }
     
@@ -384,11 +1478,9 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
             self.fetchChildrensPlayAreas(near: latestLocation)
         }
     }
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
-    
     private func fetchParks(near location: CLLocation) {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = "park"
@@ -402,8 +1494,12 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
             }
             
             let mapItems = response.mapItems
-            self.parks = mapItems.map { item in
-                let distance = location.distance(from: item.placemark.location!) / 1609.34
+            self.parks = mapItems.compactMap { item in
+                guard let itemLocation = item.placemark.location else {
+                    print("Error: Park location is nil")
+                    return nil
+                }
+                let distance = location.distance(from: itemLocation) / 1609.34
                 return Park(name: item.name ?? "Unknown Park", coordinate: item.placemark.coordinate, distance: distance)
             }
             
@@ -424,8 +1520,12 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
             }
             
             let mapItems = response.mapItems
-            self.recreationalGrounds = mapItems.map { item in
-                let distance = location.distance(from: item.placemark.location!) / 1609.34
+            self.recreationalGrounds = mapItems.compactMap { item in
+                guard let itemLocation = item.placemark.location else {
+                    print("Error: Recreation Ground location is nil")
+                    return nil
+                }
+                let distance = location.distance(from: itemLocation) / 1609.34
                 return RecreationGround(name: item.name ?? "Unknown Recreation Ground", coordinate: item.placemark.coordinate, distance: distance)
             }
             
@@ -435,7 +1535,7 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
     
     private func fetchChildrensPlayAreas(near location: CLLocation) {
         let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = "Children's play areas"
+        request.naturalLanguageQuery = "Playgrounds"
         request.region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         
         let search = MKLocalSearch(request: request)
@@ -446,8 +1546,12 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
             }
             
             let mapItems = response.mapItems
-            self.childrensPlayAreas = mapItems.map { item in
-                let distance = location.distance(from: item.placemark.location!) / 1609.34
+            self.childrensPlayAreas = mapItems.compactMap { item in
+                guard let itemLocation = item.placemark.location else {
+                    print("Error: Children's play area location is nil")
+                    return nil
+                }
+                let distance = location.distance(from: itemLocation) / 1609.34
                 return ChildrensPlayAreas(name: item.name ?? "Unknown Children's play area", coordinate: item.placemark.coordinate, distance: distance)
             }
             
@@ -455,6 +1559,8 @@ final class HomeMapViewModel: NSObject, ObservableObject, CLLocationManagerDeleg
         }
     }
 }
+
+//Data used with MK
 struct Park: Identifiable, Hashable, Equatable {
     let id = UUID()
     let name: String
