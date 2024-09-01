@@ -298,10 +298,15 @@ struct HomeMapView: View {
     }
     private func createUserID() async {
         let userID: String
-        let api = ChatGPTAPI(apiKey: "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")
+        guard let apiKey = Config.fetchAPIKey() else {
+            print("API Key not found.")
+            return
+        }
+
+        let client = ChatGPTAPI(apiKey: apiKey)
             Aptabase.shared.trackEvent("API Calls Made")
             do {
-                let stream = try await api.sendMessageStream(text: "Create a random user ID")
+                let stream = try await client.sendMessageStream(text: "Create a random user ID")
                 var response = ""
                 for try await line in stream {
                     response += line
