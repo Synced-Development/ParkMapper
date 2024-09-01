@@ -9,10 +9,22 @@ import SwiftUI
 
 struct AppSettings: View {
     var body: some View {
-        Text("Settings")
+        VStack {
+            HStack {
+                Text ("Settings")
+                Spacer()
+            }
+        } //Page Title
+        Spacer()
+        HStack {
+            Text ("Current app version: \(getAppVersion())")
+                .font(.footnote)
+        } //Current app version
     }
 }
-
-#Preview {
-    AppSettings()
-}
+func getAppVersion() -> String {
+    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        return appVersion
+    }
+    return "Unknown"
+} //Gets current application version from dictionary
