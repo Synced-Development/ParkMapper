@@ -19,6 +19,7 @@
 		1635B1B22C74CA4900877F63 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1635B1B12C74CA4900877F63 /* FirebaseFirestore */; };
 		1698D4AE2C7798A6007455FD /* MapAnnotationViewMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */; };
 		1698D4B02C7D10DD007455FD /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AF2C7D10DD007455FD /* AppSettings.swift */; };
+		16AB55F22C84A8100010C141 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 16AB55F12C84A8100010C141 /* Package.resolved */; };
 		16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 16D6D6FE2C74A98D0040C2AE /* Aptabase */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationViewMarker.swift; sourceTree = "<group>"; };
 		1698D4AF2C7D10DD007455FD /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		16AB55F12C84A8100010C141 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = ParkMapper.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
 				1626F2602C73D33300A48E94 /* HomeMapView.swift */,
+				16AB55F12C84A8100010C141 /* Package.resolved */,
 				1698D4AF2C7D10DD007455FD /* AppSettings.swift */,
 				1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */,
 				1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */,
@@ -268,6 +271,7 @@
 			files = (
 				1626F2662C73D33500A48E94 /* Preview Assets.xcassets in Resources */,
 				1626F2632C73D33500A48E94 /* Assets.xcassets in Resources */,
+				16AB55F22C84A8100010C141 /* Package.resolved in Resources */,
 				1635B1AD2C74CA0100877F63 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
