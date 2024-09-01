@@ -779,11 +779,11 @@ struct ParkDetailView: View {
             return
         }
 
-        let api = ChatGPTAPI(apiKey: apiKey)
+        let client = ChatGPTAPI(apiKey: apiKey)
         
         do {
             var fullResponse = ""
-            let stream = try await api.sendMessageStream(text: "Give me a bullet point list of what amenities are available at \(park.name), its coordinates are \(park.coordinate). Be as efficient as you can, limiting your response to 75 words.")
+            let stream = try await client.sendMessageStream(text: "Give me a bullet point list of what amenities are available at \(park.name), its coordinates are \(park.coordinate). Be as efficient as you can, limiting your response to 75 words.")
             
             for try await line in stream {
                 fullResponse += line
@@ -796,7 +796,6 @@ struct ParkDetailView: View {
             print("Error fetching ChatGPT response: \(error.localizedDescription)")
         }
     }
-
     private func getAverageReviewScore() async {
         let db = Firestore.firestore()
         let docRef = db.collection("Park-Reviews").document(park.name)

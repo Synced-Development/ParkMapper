@@ -93,7 +93,6 @@
 		1626F2522C73D33300A48E94 = {
 			isa = PBXGroup;
 			children = (
-				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F25D2C73D33300A48E94 /* ParkMapper */,
 				1626F26E2C73D33500A48E94 /* ParkMapperTests */,
 				1626F2782C73D33500A48E94 /* ParkMapperUITests */,
@@ -115,6 +114,7 @@
 		1626F25D2C73D33300A48E94 /* ParkMapper */ = {
 			isa = PBXGroup;
 			children = (
+				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				16AB55EF2C84970D0010C141 /* Config.swift */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,

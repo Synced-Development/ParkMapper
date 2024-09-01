@@ -1,8 +1,6 @@
-// Config.swift
 import Foundation
 
 class Config {
-    // Key used to store the API key in UserDefaults
     private static let apiKeyKey = "API_KEY"
 
     // Fetch the API key from UserDefaults

@@ -1,2 +1,6 @@
 
 ParkMapper/Config.swift
+ParkMapper/Config.plist
+*.plist
+Config.plist
+Config.plist
