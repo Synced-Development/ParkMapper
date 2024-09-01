@@ -48,6 +48,10 @@ struct NewSupportCaseView: View {
             Text ("Contact Support")
                 .font(.title)
         } //Page Header
+        
+        VStack {
+            Text ("your UUID IS: UnitaryFigure")
+        }
         Spacer()
     }
 }
