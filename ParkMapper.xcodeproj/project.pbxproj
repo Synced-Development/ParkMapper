@@ -19,6 +19,9 @@
 		1635B1B22C74CA4900877F63 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1635B1B12C74CA4900877F63 /* FirebaseFirestore */; };
 		1698D4AE2C7798A6007455FD /* MapAnnotationViewMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */; };
 		1698D4B02C7D10DD007455FD /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1698D4AF2C7D10DD007455FD /* AppSettings.swift */; };
+		16AB55EB2C848CE60010C141 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16AB55EA2C848CE60010C141 /* Config.plist */; };
+		16AB55EE2C848E970010C141 /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16AB55ED2C848E970010C141 /* OpenAISwift */; };
+		16AB55F02C84970D0010C141 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AB55EF2C84970D0010C141 /* Config.swift */; };
 		16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 16D6D6FE2C74A98D0040C2AE /* Aptabase */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,8 @@
 		1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationViewMarker.swift; sourceTree = "<group>"; };
 		1698D4AF2C7D10DD007455FD /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		16AB55EA2C848CE60010C141 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		16AB55EF2C84970D0010C141 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AB55EE2C848E970010C141 /* OpenAISwift in Frameworks */,
 				1626F28A2C73E39600A48E94 /* ChatGPTSwift in Frameworks */,
 				1635B1B22C74CA4900877F63 /* FirebaseFirestore in Frameworks */,
 				16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */,
@@ -87,6 +93,7 @@
 		1626F2522C73D33300A48E94 = {
 			isa = PBXGroup;
 			children = (
+				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F25D2C73D33300A48E94 /* ParkMapper */,
 				1626F26E2C73D33500A48E94 /* ParkMapperTests */,
 				1626F2782C73D33500A48E94 /* ParkMapperUITests */,
@@ -109,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				1626F28D2C73FAB000A48E94 /* Info.plist */,
+				16AB55EF2C84970D0010C141 /* Config.swift */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
 				1626F2602C73D33300A48E94 /* HomeMapView.swift */,
 				1698D4AF2C7D10DD007455FD /* AppSettings.swift */,
@@ -172,6 +180,7 @@
 				1626F2892C73E39600A48E94 /* ChatGPTSwift */,
 				16D6D6FE2C74A98D0040C2AE /* Aptabase */,
 				1635B1B12C74CA4900877F63 /* FirebaseFirestore */,
+				16AB55ED2C848E970010C141 /* OpenAISwift */,
 			);
 			productName = ParkMapper;
 			productReference = 1626F25B2C73D33300A48E94 /* ParkMapper.app */;
@@ -249,6 +258,7 @@
 				1626F2882C73E39600A48E94 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 				16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */,
 				1635B1AE2C74CA4900877F63 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				16AB55EC2C848E960010C141 /* XCRemoteSwiftPackageReference "OpenAISwift" */,
 			);
 			productRefGroup = 1626F25C2C73D33300A48E94 /* Products */;
 			projectDirPath = "";
@@ -266,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AB55EB2C848CE60010C141 /* Config.plist in Resources */,
 				1626F2662C73D33500A48E94 /* Preview Assets.xcassets in Resources */,
 				1626F2632C73D33500A48E94 /* Assets.xcassets in Resources */,
 				1635B1AD2C74CA0100877F63 /* GoogleService-Info.plist in Resources */,
@@ -295,6 +306,7 @@
 			files = (
 				1626F2612C73D33300A48E94 /* HomeMapView.swift in Sources */,
 				1698D4AE2C7798A6007455FD /* MapAnnotationViewMarker.swift in Sources */,
+				16AB55F02C84970D0010C141 /* Config.swift in Sources */,
 				1698D4B02C7D10DD007455FD /* AppSettings.swift in Sources */,
 				1626F25F2C73D33300A48E94 /* ParkMapperApp.swift in Sources */,
 			);
@@ -666,6 +678,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		16AB55EC2C848E960010C141 /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamrushy/OpenAISwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
 		16D6D6FD2C74A98D0040C2AE /* XCRemoteSwiftPackageReference "aptabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/aptabase/aptabase-swift";
@@ -686,6 +706,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1635B1AE2C74CA4900877F63 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		16AB55ED2C848E970010C141 /* OpenAISwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16AB55EC2C848E960010C141 /* XCRemoteSwiftPackageReference "OpenAISwift" */;
+			productName = OpenAISwift;
 		};
 		16D6D6FE2C74A98D0040C2AE /* Aptabase */ = {
 			isa = XCSwiftPackageProductDependency;

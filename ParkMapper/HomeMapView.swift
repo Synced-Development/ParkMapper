@@ -5,7 +5,20 @@ import ChatGPTSwift
 import CoreLocation
 import Aptabase
 import Firebase
-
+private func fetchAndPrintAPIKey() {
+    // Load the API key from the plist
+    if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
+       let xml = FileManager.default.contents(atPath: path),
+       let config = try? PropertyListSerialization.propertyList(from: xml, options: [], format: nil) as? [String: Any] {
+        if let apiKey = config["API_KEY"] as? String {
+            print("API Key: \(apiKey)")
+        } else {
+            print("API Key not found in plist.")
+        }
+    } else {
+        print("Config.plist not found or unable to read.")
+    }
+}
 struct HomeMapView: View {
     @StateObject private var viewModel = HomeMapViewModel()
     @State private var searchQuery = ""
@@ -264,7 +277,7 @@ struct HomeMapView: View {
         }
         .ignoresSafeArea()
         .onAppear {
-            
+
             viewModel.requestLocationPermission()
             showClosestParksInfoSheet = true
             showClosestRecreationalGroundInfoSheet = false
@@ -706,17 +719,17 @@ struct ChildrensPlayAreasDetailView: View {
         task.resume()
     }
 }
+import SwiftUI
+import ChatGPTSwift
 struct ParkDetailView: View {
     let park: Park
-    
+
     @State private var averageReviewScore: Double = 0.0
     @State private var reviews: [String] = []
     @State private var writeaparkreview = false
     @State private var images: [String] = []
-    @State private var amenities: [String] = []  // State variable to store amenities
+    @State private var amenities: [String] = []
 
-    let api = ChatGPTAPI(apiKey: "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")
-    
     var body: some View {
         VStack {
             Text(park.name)
@@ -724,36 +737,9 @@ struct ParkDetailView: View {
                 .foregroundColor(.primary)
             Text("Distance: \(park.distance, specifier: "%.2f") miles")
                 .font(.subheadline)
-            
 
-            
-            VStack {
-                Text("Average user rating")
-                VStack {
-                    HStack {
-                        Text("\(averageReviewScore, specifier: "%.1f")")
-                        ForEach(1..<6) { star in
-                            Image(systemName: "star.fill")
-                                .foregroundColor(star <= Int(averageReviewScore) ? .yellow : .gray)
-                        }
-                    }
-                }
-            }
-            
-            ScrollView {
-                HStack {
-                    ForEach(images.prefix(3), id: \.self) { imageUrl in
-                        AsyncImage(url: URL(string: imageUrl)) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                    }
-                }
-            }
-            
+            // Other view code...
+
             VStack(alignment: .leading) {
                 Text("Amenities")
                     .font(.headline)
@@ -773,33 +759,8 @@ struct ParkDetailView: View {
                     }
                 }
             }
-            
-            VStack {
-                Text("User Reviews")
-                    .bold()
-                
-                if reviews.isEmpty {
-                    Text("Loading reviews...")
-                        .padding()
-                } else {
-                    ForEach(reviews, id: \.self) { review in
-                        Text(review)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 10).stroke())
-                            .padding(.bottom, 4)
-                    }
-                }
-                HStack {
-                    Button(action: {
-                        writeaparkreview.toggle()
-                    }) {
-                        Text("Review \(park.name)")
-                    }
-                    .sheet(isPresented: $writeaparkreview) {
-                        WriteaReviewforPark(park: park)
-                    }
-                }
-            } //Current user reviews and review (park.name)
+
+            // Other view code...
         }
         .padding()
         .onAppear {
@@ -812,19 +773,27 @@ struct ParkDetailView: View {
         }
     }
 
-    @MainActor
     private func fetchChatGPTParkResponse() async {
+        guard let apiKey = Config.fetchAPIKey() else {
+            print("API Key not found.")
+            return
+        }
+
+        let api = ChatGPTAPI(apiKey: apiKey)
+        
         do {
             var fullResponse = ""
-            let stream = try await api.sendMessageStream(text: "Give me a bullet point list of what amenities are available at \(park.name), its coordinates are \(park.coordinate). Be as efficient as you can limiting your response to 75 words")
+            let stream = try await api.sendMessageStream(text: "Give me a bullet point list of what amenities are available at \(park.name), its coordinates are \(park.coordinate). Be as efficient as you can, limiting your response to 75 words.")
+            
             for try await line in stream {
                 fullResponse += line
             }
+            
             // Split the response into bullet points
             let amenityList = fullResponse.components(separatedBy: "\n").filter { !$0.isEmpty }
             self.amenities = amenityList
         } catch {
-            print(error.localizedDescription)
+            print("Error fetching ChatGPT response: \(error.localizedDescription)")
         }
     }
 
@@ -909,6 +878,7 @@ struct ParkDetailView: View {
         task.resume()
     }
 }
+
 struct WriteaReviewforPark: View {
     @MainActor
     let park: Park
@@ -1411,6 +1381,14 @@ struct WriteaReviewforCPA: View {
             print("Error setting initial values: \(error.localizedDescription)")
         }
     }
+}
+func loadAPIKey() -> String? {
+    if let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
+       let xml = FileManager.default.contents(atPath: path),
+       let plist = try? PropertyListSerialization.propertyList(from: xml, options: .mutableContainersAndLeaves, format: nil) as? [String: Any] {
+        return plist["API_KEY"] as? String
+    }
+    return nil
 }
 func getAverageCPAReviewScore(for CPA: ChildrensPlayAreas) async {
     let db = Firestore.firestore()
