@@ -22,6 +22,7 @@
 		16AB55EB2C848CE60010C141 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16AB55EA2C848CE60010C141 /* Config.plist */; };
 		16AB55EE2C848E970010C141 /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 16AB55ED2C848E970010C141 /* OpenAISwift */; };
 		16AB55F02C84970D0010C141 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AB55EF2C84970D0010C141 /* Config.swift */; };
+		16AB55F42C84AF4B0010C141 /* Config-template.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16AB55F32C84AF4B0010C141 /* Config-template.plist */; };
 		16D6D6FF2C74A98D0040C2AE /* Aptabase in Frameworks */ = {isa = PBXBuildFile; productRef = 16D6D6FE2C74A98D0040C2AE /* Aptabase */; };
 /* End PBXBuildFile section */
 
@@ -53,12 +54,13 @@
 		1626F2752C73D33500A48E94 /* ParkMapperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParkMapperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1626F2792C73D33500A48E94 /* ParkMapperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITests.swift; sourceTree = "<group>"; };
 		1626F27B2C73D33500A48E94 /* ParkMapperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParkMapperUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1626F28D2C73FAB000A48E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1626F28D2C73FAB000A48E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationViewMarker.swift; sourceTree = "<group>"; };
 		1698D4AF2C7D10DD007455FD /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		16AB55EA2C848CE60010C141 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Config.plist; path = ParkMapper/Config.plist; sourceTree = "<group>"; };
+		16AB55EA2C848CE60010C141 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		16AB55EF2C84970D0010C141 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		16AB55F32C84AF4B0010C141 /* Config-template.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Config-template.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +95,6 @@
 		1626F2522C73D33300A48E94 = {
 			isa = PBXGroup;
 			children = (
-				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F25D2C73D33300A48E94 /* ParkMapper */,
 				1626F26E2C73D33500A48E94 /* ParkMapperTests */,
 				1626F2782C73D33500A48E94 /* ParkMapperUITests */,
@@ -115,9 +116,11 @@
 		1626F25D2C73D33300A48E94 /* ParkMapper */ = {
 			isa = PBXGroup;
 			children = (
-				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				16AB55EF2C84970D0010C141 /* Config.swift */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
+				16AB55F32C84AF4B0010C141 /* Config-template.plist */,
+				1626F28D2C73FAB000A48E94 /* Info.plist */,
+				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F2602C73D33300A48E94 /* HomeMapView.swift */,
 				1698D4AF2C7D10DD007455FD /* AppSettings.swift */,
 				1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */,
@@ -170,6 +173,7 @@
 				1626F2572C73D33300A48E94 /* Sources */,
 				1626F2582C73D33300A48E94 /* Frameworks */,
 				1626F2592C73D33300A48E94 /* Resources */,
+				16AB55F52C84B04A0010C141 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -276,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16AB55F42C84AF4B0010C141 /* Config-template.plist in Resources */,
 				16AB55EB2C848CE60010C141 /* Config.plist in Resources */,
 				1626F2662C73D33500A48E94 /* Preview Assets.xcassets in Resources */,
 				1626F2632C73D33500A48E94 /* Assets.xcassets in Resources */,
@@ -298,6 +303,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		16AB55F52C84B04A0010C141 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Define paths\nTEMPLATE_PATH=\"${SRCROOT}/Config-template.plist\"\nOUTPUT_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Config.plist\"\n\n# Copy the template to the destination\ncp \"${TEMPLATE_PATH}\" \"${OUTPUT_PATH}\"\n\n# Replace placeholder with actual API key\nsed -i '' \"s/API_KEY_PLACEHOLDER/${API_KEY}/\" \"${OUTPUT_PATH}\"\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1626F2572C73D33300A48E94 /* Sources */ = {
