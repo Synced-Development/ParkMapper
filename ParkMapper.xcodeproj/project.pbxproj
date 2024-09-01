@@ -57,7 +57,7 @@
 		1635B1AC2C74CA0100877F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1698D4AD2C7798A6007455FD /* MapAnnotationViewMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationViewMarker.swift; sourceTree = "<group>"; };
 		1698D4AF2C7D10DD007455FD /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		16AB55EA2C848CE60010C141 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
+		16AB55EA2C848CE60010C141 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Config.plist; path = ParkMapper/Config.plist; sourceTree = "<group>"; };
 		16AB55EF2C84970D0010C141 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +93,7 @@
 		1626F2522C73D33300A48E94 = {
 			isa = PBXGroup;
 			children = (
+				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F25D2C73D33300A48E94 /* ParkMapper */,
 				1626F26E2C73D33500A48E94 /* ParkMapperTests */,
 				1626F2782C73D33500A48E94 /* ParkMapperUITests */,
@@ -114,7 +115,6 @@
 		1626F25D2C73D33300A48E94 /* ParkMapper */ = {
 			isa = PBXGroup;
 			children = (
-				16AB55EA2C848CE60010C141 /* Config.plist */,
 				1626F28D2C73FAB000A48E94 /* Info.plist */,
 				16AB55EF2C84970D0010C141 /* Config.swift */,
 				1626F25E2C73D33300A48E94 /* ParkMapperApp.swift */,
